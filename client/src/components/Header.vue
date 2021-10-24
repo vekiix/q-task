@@ -2,39 +2,47 @@
 <nav class="navbar sticky-top navbar-dark bg-dark fixed-bar">
   <div class="container-fluid">
     <div class="navbar-brand"><h2>Q-task</h2></div>
+    <ul class="navbar-nav">
+    </ul>
+    <span v-if="isAuthenticated" class="navbar-text">
+      {{this.currentUser.name}}
+    </span>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <h3 v-if="this.$session.firstName !== undefined">{{this.$session.firstName + ' ' + this.$session.last_name}}</h3>
+        <button v-if="isAuthenticated" class="btn-light btn-sm btn-outline-secondary" v-on:click="doLogout()" type="button">Logout</button>
       </li>
     </ul>
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item">
-        <button v-if="this.loggedIn" class="btn-light btn-sm btn-outline-secondary" type="button">Logout</button>
-      </li>
-    </ul>
-    </div>
+  </div>
 </nav>
 </template>
 
 <script>
-// import session from '../services/Session'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters(['currentUser', 'isAuthenticated'])
+  },
   data () {
     return {
-      firstName: '',
-      lastName: '',
-      loggedIn: false
     }
   },
   methods: {
-    fill () {
-      this.loggedIn = true
+    ...mapActions(['logout']),
+    doLogout () {
+      this.logout()
+      this.$router.push('/')
     }
   }
 }
+
 </script>
 
 <style>
+h3{
+  color: white;
+  font-size: 2vh;
+}
 .fixed-bar {
   position: sticky;
   position: -webkit-sticky; /* for Safari */

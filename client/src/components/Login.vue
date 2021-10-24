@@ -7,7 +7,7 @@
                     <h1>LOGIN Kryze4President</h1><br>
                       <input type="text" id="email" name="email" placeholder=" email" v-model="email" /> <br> <br>
                       <input type="password" id="password" name="password" placeholder=" password" v-model="password"/> <br> <br>
-                      <button type="button submit" id="prijava" class="btn btn-primary" v-on:click="login">Log in</button>
+                      <button type="button submit" id="prijava" class="btn btn-primary" v-on:click="doLogin">Log in</button>
                       <div class= "error" v-html="error" />
                 </div>
             </div>
@@ -19,6 +19,7 @@
 <script>
 import axios from 'axios'
 import Authentificator from '../services/Authentificator'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -30,7 +31,8 @@ export default {
     }
   },
   methods: {
-    async login () {
+    ...mapActions(['login']),
+    async doLogin () {
       try {
         if (this.$session.exists()) {
           this.$session.destroy()
@@ -44,6 +46,7 @@ export default {
           await this.$session.set('jwt', response.data.token_key)
           await this.$session.set('firsName', response.data.user.first_name)
           await this.$session.set('lastName', response.data.user.last_name)
+          this.login(response.data.user.first_name + ' ' + response.data.user.last_name)
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token_key
           this.$router.push('/authors')
         }
@@ -51,6 +54,11 @@ export default {
         console.log(err)
         this.error = 'Incorrect username or password!'
       }
+    }
+  },
+  beforeMount () {
+    if (this.$session.exists()) {
+      this.$session.destroy()
     }
   }
 }

@@ -3,8 +3,7 @@
         <div class="container-fluid col-xs-12">
             <div class ="row align-items-start">
                 <div class="col align-self-center sm-3">
-                    <h1>Popis knjiga</h1><br>
-                    <button type="button" class="btn btn-primary" v-on:click="fetch()">Prikaz</button> <br> <br>
+                    <h1 style="font-family: Impact;font-size: 3.5vh;">Popis knjiga</h1><br>
                     <table class ="table">
                         <thead>
                             <tr>
@@ -37,7 +36,6 @@
 
 <script>
 import Repository from '../services/Repository'
-import Header from '../components/Header.vue'
 
 export default {
   name: 'Authors',
@@ -51,7 +49,6 @@ export default {
       try {
         var response = await Repository.fetchBooks()
         this.books = response.data.items
-        Header.methods.fill()
         console.log(this.books)
       } catch (error) {
         this.$router.push('/')
@@ -62,11 +59,13 @@ export default {
         await Repository.deleteBook(id)
         this.fetch()
       } catch (error) {
-        console.log(error)
+        alert('Slow down!\n' + error.message)
       }
     }
   },
-  onload: fetch()
+  beforeMount () {
+    this.fetch()
+  }
 
 }
 </script>
