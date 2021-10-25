@@ -37,7 +37,7 @@ const mutations = {
     state.refreshToken = data.refreshToken
     var currentDate = new Date()
     state.expirationDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(),
-      currentDate.getHours() + 4, currentDate.getMinutes(), currentDate.getSeconds())
+      currentDate.getHours(), currentDate.getMinutes() + 5, currentDate.getSeconds())
   }
 }
 
@@ -59,7 +59,7 @@ const actions = {
   setAuthor (context, data) {
     context.commit('SET_AUTHOR', data)
   },
-  refreshSession (context, data) {
+  renewSession (context, data) {
     context.commit('REFRESH_TOKEN', data)
   }
 }

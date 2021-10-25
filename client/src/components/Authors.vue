@@ -67,7 +67,11 @@ export default {
     }
   },
   beforeMount () {
-    Authentificator.checkAuth()
+    if (!Authentificator.checkSession()) {
+      this.$router.push('/login')
+    } else {
+      Authentificator.refreshSession()
+    }
     this.fetch()
   }
 

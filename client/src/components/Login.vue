@@ -41,12 +41,13 @@ export default {
           password: this.password
         })
         if (response.status === 200 && 'user' in response.data) {
-          this.login({
+          console.log(response)
+          await this.login({
             name: response.data.user.first_name + ' ' + response.data.user.last_name,
             token: response.data.token_key,
             refreshToken: response.data.refresh_token_key
           })
-          Authentificator.setAuthHeader(response.data.token_key)
+          await Authentificator.setAuthHeader(response.data.token_key)
           this.$router.push('/authors')
         }
       } catch (err) {
@@ -56,9 +57,7 @@ export default {
     }
   },
   beforeMount () {
-    if (this.isAuthenticated) {
-      this.logout()
-    }
+    this.logout()
   }
 }
 </script>

@@ -77,7 +77,6 @@ export default {
         this.author.lastName = res.data.last_name
         this.author.birthday = res.data.birthday
         this.author.gender = res.data.gender
-
         this.books = res.data.books
       } catch (error) {
         this.$router.push('/login')
@@ -102,7 +101,11 @@ export default {
     }
   },
   beforeMount () {
-    Authentificator.checkAuth()
+    if (!Authentificator.checkSession()) {
+      this.$router.push('/login')
+    } else {
+      Authentificator.refreshSession()
+    }
     this.fetch()
   }
 

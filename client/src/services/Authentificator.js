@@ -1,40 +1,43 @@
 import Api from './Api'
 import axios from 'axios'
-import { mapActions, mapGetters } from 'vuex'
+import store from '../store'
 
 export default ({
-  computed: {
-    ...mapGetters(['isAuthenticated', 'getRefreshToken'])
-  },
   data () {
     return {
     }
   },
-  ...mapActions(['refreshSession']),
   login (credentials) {
     return Api().post('token', credentials)
   },
   setAuthHeader (token) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
   },
-  refreshSession () {
+  async refreshSession () {
     try {
-      console.log(this.getRefreshToken)
-      var response = Api().get('token/refresh/' + this.getRefreshToken)
-      this.refreshSession({
-        token: response.data.token_key,
-        refreshToken: response.data.refresh_token_key
-      })
-      this.setAuthHeader(response.data.token_key)
-      alert('token refreshed!')
+      await Api().get('token/refresh/' + store.getters.getRefreshToken)
+        .then(response => {
+          console.log(response)
+          if (response.status !== 200) {
+            this.$router.push('/login')
+          } else {
+            store.dispatch('renewSession', {
+              token: response.data.token_key,
+              refreshToken: response.data.refresh_token_key
+            })
+            this.setAuthHeader(response.data.token_key)
+          }
+        })
     } catch (error) {
       console.log(error.message)
       this.$router.push('/login')
     }
   },
-  checkAuth () {
-    if (this.isAuthenticated === false) {
-      this.$router.push('/login')
+  checkSession () {
+    if (store.getters.getExpirationDate < Date.now() || !store.getters.isAuthenticated) {
+      return false
+    } else {
+      return true
     }
   }
 })
