@@ -5,10 +5,15 @@
     <ul class="navbar-nav">
     </ul>
     <span v-if="isAuthenticated" class="navbar-text">
-      {{this.currentUser.name}}
+      NAME :{{this.currentUser}} <br>
+      TOKEN :{{this.getToken}} <br>
+      REFRESHTOKEN :{{this.getRefreshToken}} <br>
+      EXPIRATIONDATE :{{this.getExpirationDate}} <br>
+      AUTHORID : {{this.getAuthorID}}
     </span>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
+        <button v-if="isAuthenticated" class="btn btn-primary" v-on:click="addBook()" style="margin-right:5vh;" type="button">Add new book</button>
         <button v-if="isAuthenticated" class="btn-light btn-sm btn-outline-secondary" v-on:click="doLogout()" type="button">Logout</button>
       </li>
     </ul>
@@ -21,7 +26,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['currentUser', 'isAuthenticated'])
+    ...mapGetters(['currentUser', 'isAuthenticated', 'getToken', 'getRefreshToken', 'getExpirationDate', 'getAuthorID'])
   },
   data () {
     return {
@@ -32,6 +37,9 @@ export default {
     doLogout () {
       this.logout()
       this.$router.push('/')
+    },
+    addBook () {
+      this.$router.push('/addbook')
     }
   }
 }

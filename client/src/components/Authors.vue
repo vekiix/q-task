@@ -3,30 +3,30 @@
         <div class="container-fluid col-xs-12">
             <div class ="row align-items-start">
                 <div class="col align-self-center sm-3">
-                    <h1 style="font-family: Impact;font-size: 3.5vh;">Popis knjiga</h1><br>
+                    <h1 style="font-family: Impact;font-size: 3.5vh;">Popis autora</h1><br>
                     <table class ="table">
                         <thead>
                             <tr>
                                 <th scope='col'>#</th>
-                                <th scope='col'>Title</th>
-                                <th scope='col'>Release Date</th>
-                                <th scope='col'>ISBN</th>
-                                <th scope='col'>Format</th>
-                                <th scope='col'>Number of pages</th>
+                                <th scope='col'>First Name</th>
+                                <th scope='col'>Last Name</th>
+                                <th scope='col'>Birthday</th>
+                                <th scope='col'>Gender</th>
+                                <th scope='col'>Place of Birth</th>
                                 <th scope='col'></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="value in books" :key="value.id">
+                          <tbody>
+                            <tr v-for="value in authors" :key="value.id">
                                 <th scope ="row">{{value.id}} </th>
-                                <th scope ="row">{{value.title}} </th>
-                                <th scope ="row">{{value.release_date}} </th>
-                                <th scope ="row">{{value.isbn}} </th>
-                                <th scope ="row">{{value.format}} </th>
-                                <th scope ="row">{{value.number_of_pages}} </th>
-                                <th scope ="row"><button type="button submit" v-on:click="deleteSelected(value.id)" class="btn btn-primary">Delete</button></th>
+                                <th scope ="row">{{value.first_name}} </th>
+                                <th scope ="row">{{value.last_name}} </th>
+                                <th scope ="row">{{value.birthday}} </th>
+                                <th scope ="row">{{value.gender}} </th>
+                                <th scope ="row">{{value.place_of_birth}} </th>
+                                <th scope ="row"><button v-on:click="redirect(value.id)" type="button submit" class="btn btn-primary">Pregledaj knjige autora</button></th>
                             </tr>
-                        </tbody>
+                          </tbody>
                     </table>
                 </div>
             </div>
@@ -35,35 +35,39 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Repository from '../services/Repository'
+import Authentificator from '../services/Authentificator'
 
 export default {
   name: 'Authors',
   data () {
     return {
-      books: {}
+      authors: {}
     }
   },
   methods: {
+    ...mapActions(['setAuthor']),
     async fetch () {
       try {
-        var response = await Repository.fetchBooks()
-        this.books = response.data.items
-        console.log(this.books)
+        var response = await Repository.fetchAuthors()
+        this.authors = response.data.items
+        console.log(this.authors)
       } catch (error) {
-        this.$router.push('/')
+        console.log(error.message)
+        this.$router.push('/login')
       }
     },
-    async deleteSelected (id) {
-      try {
-        await Repository.deleteBook(id)
-        this.fetch()
-      } catch (error) {
-        alert('Slow down!\n' + error.message)
-      }
+    redirect (id) {
+      console.log(id)
+      this.setAuthor({
+        authorID: id
+      })
+      this.$router.push('/books')
     }
   },
   beforeMount () {
+    Authentificator.checkAuth()
     this.fetch()
   }
 

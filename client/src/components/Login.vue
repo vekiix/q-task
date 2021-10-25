@@ -15,14 +15,13 @@
     </div>
   </div>
 </template>
-
 <script>
-import axios from 'axios'
 import Authentificator from '../services/Authentificator'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Login',
+  ...mapGetters(['isAuthenticated']),
   data () {
     return {
       email: '',
@@ -31,23 +30,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['login', 'logout', 'setSession']),
     async doLogin () {
       try {
-        if (this.$session.exists()) {
-          this.$session.destroy()
+        if (this.isAuthenticated) {
+          this.logout()
         }
         var response = await Authentificator.login({
           email: this.email,
           password: this.password
         })
         if (response.status === 200 && 'user' in response.data) {
-          await this.$session.start()
-          await this.$session.set('jwt', response.data.token_key)
-          await this.$session.set('firsName', response.data.user.first_name)
-          await this.$session.set('lastName', response.data.user.last_name)
-          this.login(response.data.user.first_name + ' ' + response.data.user.last_name)
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token_key
+          this.login({
+            name: response.data.user.first_name + ' ' + response.data.user.last_name,
+            token: response.data.token_key,
+            refreshToken: response.data.refresh_token_key
+          })
+          Authentificator.setAuthHeader(response.data.token_key)
           this.$router.push('/authors')
         }
       } catch (err) {
@@ -57,8 +56,8 @@ export default {
     }
   },
   beforeMount () {
-    if (this.$session.exists()) {
-      this.$session.destroy()
+    if (this.isAuthenticated) {
+      this.logout()
     }
   }
 }
