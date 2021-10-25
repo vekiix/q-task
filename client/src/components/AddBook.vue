@@ -5,13 +5,6 @@
             <div class ="row align-items-start">
                 <div class="col align-self-center sm-3">
                     <h1>Add a new book</h1><br>
-                      <div class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Personal asset loans</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                          <li><a href="#">asds</a></li>
-                          <li class="divider"></li>
-                        </ul>
-                      </div>
                       <br> <br>
                       <input type="text" id="title" name="title" placeholder=" title" v-model="book.title" /> <br> <br>
                       <input type="date" id="releaseDate" name="releaseDate" placeholder=" releaseDate" v-model="book.releaseDate" /> <br> <br>
