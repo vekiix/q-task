@@ -20,7 +20,7 @@ const mutations = {
     state.refreshToken = data.refreshToken
     var currentDate = new Date()
     state.expirationDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(),
-      currentDate.getHours() + 2, currentDate.getMinutes(), currentDate.getSeconds())
+      currentDate.getHours(), currentDate.getMinutes() + 10, currentDate.getSeconds())
   },
   LOGOUT_USER (state) {
     state.isAuthenticated = false
@@ -28,6 +28,7 @@ const mutations = {
     state.token = null
     state.refreshToken = null
     state.expirationDate = null
+    state.authorID = null
   },
   SET_AUTHOR (state, data) {
     state.authorID = data.authorID
@@ -37,7 +38,7 @@ const mutations = {
     state.refreshToken = data.refreshToken
     var currentDate = new Date()
     state.expirationDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(),
-      currentDate.getHours(), currentDate.getMinutes() + 5, currentDate.getSeconds())
+      currentDate.getHours(), currentDate.getMinutes() + 10, currentDate.getSeconds())
   }
 }
 

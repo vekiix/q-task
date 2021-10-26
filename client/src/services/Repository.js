@@ -6,6 +6,9 @@ export default ({
   deleteBook (id) {
     return Api().delete('books/' + id)
   },
+  addBook (data) {
+    return Api().post('books', data)
+  },
   fetchAuthor (id) {
     return Api().get('authors/' + id)
   },

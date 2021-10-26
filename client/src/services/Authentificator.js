@@ -14,24 +14,19 @@ export default ({
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
   },
   async refreshSession () {
-    try {
-      await Api().get('token/refresh/' + store.getters.getRefreshToken)
-        .then(response => {
-          console.log(response)
-          if (response.status !== 200) {
-            this.$router.push('/login')
-          } else {
-            store.dispatch('renewSession', {
-              token: response.data.token_key,
-              refreshToken: response.data.refresh_token_key
-            })
-            this.setAuthHeader(response.data.token_key)
-          }
-        })
-    } catch (error) {
-      console.log(error.message)
-      this.$router.push('/login')
-    }
+    await Api().get('token/refresh/' + store.getters.getRefreshToken)
+      .then(response => {
+        console.log(response)
+        if (response.status !== 200) {
+          console.log('Problem pri osvjezavanju tokena')
+        } else {
+          store.dispatch('renewSession', {
+            token: response.data.token_key,
+            refreshToken: response.data.refresh_token_key
+          })
+          this.setAuthHeader(response.data.token_key)
+        }
+      })
   },
   checkSession () {
     if (store.getters.getExpirationDate < Date.now() || !store.getters.isAuthenticated) {
