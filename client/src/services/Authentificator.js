@@ -29,7 +29,7 @@ export default ({
       })
   },
   checkSession () {
-    if (store.getters.getExpirationDate < Date.now() || !store.getters.isAuthenticated) {
+    if ((store.getters.getExpirationDate < Date.now() && store.getters.getExpirationDate - Date.now() < 60000) || !store.getters.isAuthenticated) {
       return false
     } else {
       return true

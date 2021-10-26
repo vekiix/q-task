@@ -4,7 +4,7 @@
         <div class="container-fluid col-xs-12">
             <div class ="row align-items-start">
                 <div class="col align-self-center sm-3">
-                    <h1>LOGIN Kryze4President</h1><br>
+                    <h1>LOGIN</h1><br>
                       <input type="text" id="email" name="email" placeholder=" email" v-model="email" /> <br> <br>
                       <input type="password" id="password" name="password" placeholder=" password" v-model="password"/> <br> <br>
                       <button type="button submit" id="prijava" class="btn btn-primary" v-on:click="doLogin">Log in</button>

@@ -79,7 +79,7 @@ export default {
         this.author.gender = res.data.gender
         this.books = res.data.books
       } catch (error) {
-        this.$router.push('/login')
+        this.$router.push('/authors')
         console.log(error.message)
       }
     },
