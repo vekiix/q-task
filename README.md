@@ -7,7 +7,7 @@
 * Vuex - koristen za potrebe spremanja podataka o sesiji.
 * Bootstrap - koristen za dizajn elemenata i prikaz.
 
-## Datoteka
+## Pregled datoteka
 ```
 ├───src
 │   │──App.vue - glavni Vue file. na njega je bindan router-view(koristi komponente iz foldera  
