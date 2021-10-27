@@ -13,6 +13,7 @@
     </span>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
+        <button v-if="isAuthenticated" class="btn btn-primary" v-on:click="authors()" style="margin-right:5vh;" type="button">Pregled autora</button>
         <button v-if="isAuthenticated" class="btn btn-primary" v-on:click="addBook()" style="margin-right:5vh;" type="button">Add new book</button>
         <button v-if="isAuthenticated" class="btn-light btn-sm btn-outline-secondary" v-on:click="doLogout()" type="button">Logout</button>
       </li>
@@ -39,7 +40,14 @@ export default {
       this.$router.push('/')
     },
     addBook () {
-      this.$router.push('/addbook')
+      if (this.$route.path !== '/addbook') {
+        this.$router.push('/addbook')
+      }
+    },
+    authors () {
+      if (this.$route.path !== '/authors') {
+        this.$router.push('/authors')
+      }
     }
   }
 }

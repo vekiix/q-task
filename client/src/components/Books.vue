@@ -48,8 +48,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Repository from '../services/Repository'
 import Authentificator from '../services/Authentificator'
+// import Authentificator from '../services/Authentificator'
+import Repository from '../services/Repository'
 
 export default {
   name: 'Books',
@@ -80,7 +81,6 @@ export default {
         this.books = res.data.books
       } catch (error) {
         this.$router.push('/authors')
-        console.log(error.message)
       }
     },
     async deleteSelected (id) {
@@ -100,12 +100,12 @@ export default {
       }
     }
   },
-  beforeMount () {
+  beforeCreate () {
     if (!Authentificator.checkSession()) {
       this.$router.push('/login')
-    } else {
-      Authentificator.refreshSession()
     }
+  },
+  beforeMount () {
     this.fetch()
   }
 

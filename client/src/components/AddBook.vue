@@ -80,10 +80,10 @@ export default {
   },
   beforeMount () {
     this.fetch()
+  },
+  beforeCreate () {
     if (!Authentificator.checkSession()) {
       this.$router.push('/login')
-    } else {
-      Authentificator.refreshSession()
     }
   }
 }

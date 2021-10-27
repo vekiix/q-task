@@ -36,8 +36,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import Repository from '../services/Repository'
 import Authentificator from '../services/Authentificator'
+import Repository from '../services/Repository'
 
 export default {
   name: 'Authors',
@@ -67,14 +67,13 @@ export default {
     }
   },
   beforeMount () {
+    this.fetch()
+  },
+  beforeCreate () {
     if (!Authentificator.checkSession()) {
       this.$router.push('/login')
-    } else {
-      Authentificator.refreshSession()
     }
-    this.fetch()
   }
-
 }
 </script>
 
