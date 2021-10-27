@@ -51,7 +51,6 @@ export default {
       try {
         var res = await Repository.fetchAuthors()
         this.authors = res.data.items
-        console.log(this.authors)
       } catch (error) {
         console.log(error.message)
       }
@@ -92,14 +91,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center{
-  display:flex;
-  justify-content: center;
-  align-items:center;
-}
-.padding{
-  padding-top: 20vh;
-}
 .error{
   padding-top: 5vh;
   color: red;

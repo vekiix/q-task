@@ -17,7 +17,6 @@ export default ({
     try {
       await Api().get('token/refresh/' + store.getters.getRefreshToken)
         .then(response => {
-          console.log(response)
           store.dispatch('renewSession', {
             token: response.data.token_key,
             refreshToken: response.data.refresh_token_key

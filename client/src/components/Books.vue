@@ -49,7 +49,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Authentificator from '../services/Authentificator'
-// import Authentificator from '../services/Authentificator'
 import Repository from '../services/Repository'
 
 export default {
@@ -114,16 +113,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center{
-  display:flex;
-  justify-content: center;
-  align-items:center;
-}
-.padding{
-  padding-top: 20vh;
-}
-.error{
-  padding-top: 5vh;
-  color: red;
-}
 </style>

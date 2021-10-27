@@ -52,14 +52,12 @@ export default {
       try {
         var response = await Repository.fetchAuthors()
         this.authors = response.data.items
-        console.log(this.authors)
       } catch (error) {
         console.log(error.message)
         this.$router.push('/login')
       }
     },
     redirect (id) {
-      console.log(id)
       this.setAuthor({
         authorID: id
       })
@@ -79,16 +77,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center{
-  display:flex;
-  justify-content: center;
-  align-items:center;
-}
-.padding{
-  padding-top: 20vh;
-}
-.error{
-  padding-top: 5vh;
-  color: red;
-}
 </style>

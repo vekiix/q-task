@@ -41,7 +41,6 @@ export default {
           password: this.password
         })
         if (response.status === 200 && 'user' in response.data) {
-          console.log(response)
           await this.login({
             name: response.data.user.first_name + ' ' + response.data.user.last_name,
             token: response.data.token_key,
